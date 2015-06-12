@@ -1,0 +1,14 @@
+#!/bin/bash
+
+curl -d '{ "auth_token": "__YOUR_AUTH_TOKEN__", "text": "<h1>Welcome to Consul Dashing!</h1><p>To find out more, browse to <a href='http://dashing.io/' target='_blank'>Dashing</a> and <a href='https://github.com/hashicorp/consul-template' target='_blank'>Consul Template</a></p>", "image": "dashing_page_logo.png" }' http://localhost:3030/widgets/header
+
+{{range services}}{{$name := .Name}}
+{{range $tag, $members := service $name | byTag}}
+{{if eq $tag "web"}}
+	{{ range $members}}
+			{{$Address := .Address}}
+			{{$Port := .Port}}
+			{{$link := (print "__URL_PATTERN__")}}
+			curl -d '{ "auth_token": "__YOUR_AUTH_TOKEN__", "text": "{{$name}}", "link": "{{$link}}" }' http://localhost:$PORT/widgets/{{$name}}
+	 {{end}}
+{{end}}{{end}}{{end}}

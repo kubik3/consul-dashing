@@ -1,0 +1,45 @@
+// ----------------------------------------------------------------------------
+// Sass declarations
+// ----------------------------------------------------------------------------
+
+$text-color:  #ffffff;
+$link-color:  #7E8082;
+$background-color:  #4B214B;
+
+// ----------------------------------------------------------------------------
+// Widget-image styles
+// ----------------------------------------------------------------------------
+
+.widget-header {
+	color: $text-color;
+	background-color: $background-color;
+	height: 100%;
+	font-family: Helvetica, Geneva, Arial, sans-serif;
+	font-weight: lighter;
+	text-align:center;
+	vertical-align:middle;
+}
+
+.widget-header a {
+	color: $link-color;
+}
+
+.widget-header h1 {
+	font-size:250%;
+}
+
+.header-image {
+	height: inherit;
+	float:right;
+	width: 20%;
+	padding-right:1%;
+	padding-top:1%;
+	display: inline-block;
+}
+
+.header-text {
+	height: inherit;
+	padding-top:3%;
+	width:77%;
+	display: inline-block;
+}
