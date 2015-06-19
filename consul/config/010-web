@@ -1,11 +1,11 @@
 template {
-  source = "__CONSUL_TEMPLATE_HOME__/ctmpl/dashboard.ctmpl"
+  source = "__CONSUL_TEMPLATE_HOME__/consul-template.d/ctmpl/dashboard.ctmpl"
   destination = "/dashing/dashboards/dashing.erb"
-  command = "curl -i -d '{ \"auth_token\": \"__YOUR_AUTH_TOKEN__\", \"event\": \"reload\"}' http://localhost:$PORT/dashboards/dashing"
+  command = "chmod 777 /dashing/assets/api_jobs/dashing_reload.rb && /dashing/assets/api_jobs/dashing_reload.rb"
 }
 
 template {
-  source = "__CONSUL_TEMPLATE_HOME__/ctmpl/widget_data.ctmpl"
-  destination = "/dashing/jobs/widget_data.sh"
-  command = "chmod 777 /dashing/jobs/widget_data.sh && /dashing/jobs/widget_data.sh"
+  source = "__CONSUL_TEMPLATE_HOME__/consul-template.d/ctmpl/widget_data.ctmpl"
+  destination = "/dashing/assets/api_jobs/widget_data.rb"
+  command = "chmod 777 /dashing/assets/api_jobs/widget_data.rb && /dashing/assets/api_jobs/widget_data.rb"
 }

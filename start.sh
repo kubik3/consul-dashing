@@ -1,23 +1,26 @@
 #!/bin/bash
 
 #Updating values
+
 find ${CONSUL_TEMPLATE_HOME} -type f -exec sed -i 's|__CONSUL_TEMPLATE_HOME__|'$CONSUL_TEMPLATE_HOME'|g' {} +
-
-find ${CONSUL_TEMPLATE_HOME} -type f -exec sed -i 's|__URL_PATTERN__|'$URL_PATTERN'|g' {} +
-find ${CONSUL_TEMPLATE_HOME} -type f -exec sed -i 's|{__SERVICE_NAME__}|" \$name "|g' {} +
-find ${CONSUL_TEMPLATE_HOME} -type f -exec sed -i 's|{__PORT__}|:" \$Port "|g' {} +
-find ${CONSUL_TEMPLATE_HOME} -type f -exec sed -i 's|{__IP__}|" \$Address "|g' {} +
-
-find ${CONSUL_TEMPLATE_HOME} -type f -exec sed -i "s/__YOUR_AUTH_TOKEN__/${DASHING_AUTH_TOKEN}/g" {} +
 
 find /dashing -type f -exec sed -i "s/YOUR_AUTH_TOKEN/${DASHING_AUTH_TOKEN}/g" {} +
 
 find ${CONSUL_TEMPLATE_HOME} -type f -exec sed -i "s/__CONSUL_URL__/${CONSUL_SERVER_URL}/g" {} +
 
-#Running Dashing
-/run.sh & 
+#Installing required gem
+echo -e "\ngem 'httparty', '0.13.3'" >> /dashing/Gemfile
 
-sleep 10
+bundle install
+
+#Running Dashing
+echo "Starting Dashing"
+
+/run.sh &
+
+sleep 60
+
+echo "Starting Consul-Template"
 
 #Running Consul Template
-consul-template -config "${CONSUL_TEMPLATE_HOME}/consul-template.d/" -retry 10s && fg
+consul-template -config "${CONSUL_TEMPLATE_HOME}/consul-template.d/config" -retry 10s && fg

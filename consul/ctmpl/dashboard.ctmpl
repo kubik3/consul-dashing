@@ -8,7 +8,7 @@
 		<%$data_row = 2%>
 		<%def column(index)%><%$data_col = index + 1;%><%$data_row = index/8 + 2%><%if ($data_col > 8)%><%$data_col=index%8+1%><%end%><%return $data_col%><%end%>	
 	{{range services}}{{$name := .Name}}
-	{{range $tag, $members := service $name | byTag}}{{if eq $tag "web"}}
+	{{range $tag, $members := service $name | byTag}}{{if eq $tag (env "CONSUL_SERVICE_TAG")}}
 		<%arr << "{{index $members}}"%>
 		<li id="{{$name}}" data-col="<%=column(arr.index("{{index $members}}"))%>" data-row="<%=$data_row%>" data-sizex="1" data-sizey="1">
 			<div data-id="{{$name}}" data-view="Link" style="width:100%;height:100%;margin:0;padding:0;"></div>
